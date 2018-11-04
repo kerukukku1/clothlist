@@ -26,30 +26,33 @@
 import Vue from 'vue'
 import {Component, Prop} from 'vue-property-decorator'
 @Component({
-  data() {
-    return {
-      tabs: {
+})
+export default class App extends Vue{
+  tabs : Object = {
         About: [
           {name: 'Home', link: '/'},
           {name: 'About', link: '/about'},
-          {name: 'MarkdownEditor', link: '/markdown'},
         ],
         Company: [
           {name: 'representative', link: '/'}
         ]
-      },
-      styleObject: {
+  };
+  styleObject : Object = {
         height: '60px',
-      },
-      contentKey : '',
-      isOpen: false,
-      show:true,
-      list: []
-    }
-  }
-})
-export default class App extends Vue{
+  };
+  contentKey : string = '';
+  isOpen : boolean = false;
+  show : boolean = true;
 
+  openAccordion(key : string) {
+    this.contentKey = key
+    this.isOpen = true
+  }
+
+  closeAccordion() {
+    this.isOpen = false
+    this.contentKey = ''
+  }
 }
 </script>
 
