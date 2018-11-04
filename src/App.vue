@@ -24,25 +24,44 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import {Component, Prop} from 'vue-property-decorator'
+import {Component, Prop, Watch} from 'vue-property-decorator'
+
+interface content {
+  name : string,
+  link : string
+}
+
+interface tabs {
+  About : Array<content>,
+  Company : Array<content>
+}
+
 @Component({
 })
 export default class App extends Vue{
-  tabs : Object = {
+  tabs : tabs = {
         About: [
           {name: 'Home', link: '/'},
-          {name: 'About', link: '/about'},
+          {name: 'About', link: '/about'}
         ],
         Company: [
           {name: 'representative', link: '/'}
         ]
   };
-  styleObject : Object = {
+  styleObject : {height: string} = {
         height: '60px',
   };
   contentKey : string = '';
   isOpen : boolean = false;
   show : boolean = true;
+
+  @Watch('contentKey')
+  onchange(){
+    this.$nextTick(function() {
+        this.$set(this.styleObject, 'height', (this.isOpen)?this.$refs.body.getBoundingClientRect().height+'px':'60px')
+        console.log(this.styleObject.height)
+    })
+  }
 
   openAccordion(key : string) {
     this.contentKey = key
