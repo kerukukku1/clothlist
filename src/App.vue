@@ -24,7 +24,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import {Component, Prop, Watch} from 'vue-property-decorator'
+import { Watch, Component } from 'vue-property-decorator'
+import navigationItem from '@/components/NavigationItem.vue'
 
 interface content {
   name : string,
@@ -35,8 +36,10 @@ interface tabs {
   About : Array<content>,
   Company : Array<content>
 }
-
 @Component({
+  components: {
+    'navigation-item' : navigationItem
+  }
 })
 export default class App extends Vue{
   tabs : tabs = {
