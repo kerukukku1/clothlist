@@ -1,12 +1,58 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <div class="coolnav" @mouseleave="closeAccordion()" :style="styleObject" v-if="show">
+      <div :style="{marginRight: '15px'}">
+        <navigation-item v-for="(tab, key) in tabs" :key="tab.id" @open-accordion="openAccordion(key)"> 
+          {{key}}
+        </navigation-item>
+      </div>
+      <transition name="ac-content">
+        <div v-if="isOpen" class="accordion-content" ref="body">
+          <h1>{{contentKey}}</h1>
+          <div v-for="tab in tabs[contentKey]" :key="tab.id">
+            <router-link :to="tab.link">{{tab.name}}</router-link>
+          </div>
+        </div>
+      </transition>
+      <!-- <router-link v-for="tab in tabs" :key=tab.id :to="tab.link" :style="{width: tabWidth}">{{tab.name}}</router-link> -->
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
     <router-view/>
   </div>
 </template>
+
+<script lang="ts">
+import Vue from 'vue'
+import {Component, Prop} from 'vue-property-decorator'
+@Component({
+  data() {
+    return {
+      tabs: {
+        About: [
+          {name: 'Home', link: '/'},
+          {name: 'About', link: '/about'},
+          {name: 'MarkdownEditor', link: '/markdown'},
+        ],
+        Company: [
+          {name: 'representative', link: '/'}
+        ]
+      },
+      styleObject: {
+        height: '60px',
+      },
+      contentKey : '',
+      isOpen: false,
+      show:true,
+      list: []
+    }
+  }
+})
+export default class App extends Vue{
+
+}
+</script>
+
 
 <style>
 #app {
