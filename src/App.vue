@@ -15,8 +15,6 @@
         </div>
       </transition>
       <!-- <router-link v-for="tab in tabs" :key=tab.id :to="tab.link" :style="{width: tabWidth}">{{tab.name}}</router-link> -->
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
     </div>
     <router-view/>
   </div>
@@ -34,7 +32,7 @@ interface content {
 
 interface tabs {
   About : Array<content>,
-  Company : Array<content>
+  Management : Array<content>
 }
 @Component({
   components: {
@@ -44,11 +42,11 @@ interface tabs {
 export default class App extends Vue{
   tabs : tabs = {
         About: [
-          {name: 'Home', link: '/'},
-          {name: 'About', link: '/about'}
+          {name: 'Toppage.', link: '/'},
+          {name: 'About.', link: '/about'}
         ],
-        Company: [
-          {name: 'representative', link: '/'}
+        Management: [
+          {name: 'Gallery.', link: '/gallery'}
         ]
   };
   styleObject : {height: string} = {
@@ -87,16 +85,127 @@ export default class App extends Vue{
   text-align: center;
   color: #2c3e50;
 }
+
+body {
+  margin: 0 auto;
+}
 #nav {
-  padding: 30px;
+  padding: 20px;
+  background: #2c3e50;
+  /* margin-bottom: 50px; */
+  bottom: 0;
+  position: fixed;
+  width: 100%;
 }
 
 #nav a {
-  font-weight: bold;
-  color: #2c3e50;
+  font-weight: 300;
+  /* color: #2c3e50; */
+  color: #dd5511;
+  padding: 20px;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+#nav a:hover{
+  background: hsl(203, 23%, 27%);
+  transition: 400ms;
 }
+
+a{
+  color: white;
+}
+
+a.router-link-exact-active {
+  font-weight: 800;
+  /* color: #42b983; */
+  color: #dd5511;
+}
+
+footer{
+  height: 100px;
+}
+
+.coolnav{
+  background: #2c3e50;
+  color: aquamarine;
+  font-weight: bold;
+  border-radius: 35px;
+  position: fixed;
+  top: 4%;
+  width: 95%;
+  left: calc(2.5%);
+  transition: height 500ms cubic-bezier(0.68, -0.55,  0.265, 1.55 );
+}
+
+.content{
+  margin-top: 120px;
+}
+
+.accordion-content::before{
+  content: "";
+  width:94%;
+  border-top: 2px solid white;
+  left: calc(3%);
+  top: 80px;
+  position: fixed;
+}
+
+.accordion-content{
+  padding: 70px;
+}
+
+.view-enter-active, .view-leave-active {
+  animation: bounce-in 500ms;
+}
+
+.view-enter, .view-leave-to {
+  animation: bounce-in 500ms reverse;
+}
+
+.ac-content-enter-active{
+  transition: opacity 500ms ease 200ms;
+}
+
+.ac-content-enter, .ac-content-leave-to {
+  opacity: 0;
+}
+
+.accordion-enter-active, .accordion-leave-active {
+  transition: opacity 500ms ease 200ms;
+}
+
+.accordion-enter, .accordion-leave-to {
+  opacity: 0;
+}
+
+.expand-transition {
+  transition: all 300ms ease;
+  height: 30px;
+  padding: 10px;
+  background-color: #eee;
+  overflow: hidden;
+}
+.expand-enter, .expand-leave {
+  height: 0;
+  padding: 0 10px;
+  opacity: 0;
+}
+
+@keyframes bounce-in {
+  0%{
+    transform: scale(0.5)
+  }
+  50%{
+    transform: scale(1.5)
+  }
+  100%{
+    transform: scale(1.0)
+  }
+  /* 0%{
+    transform: scale(0.5) rotate(0deg);
+  }
+  100%{
+    transform: scale(1.0) rotate(360deg);
+  } */
+}
+
 </style>
