@@ -16,7 +16,6 @@
       </transition>
       <!-- <router-link v-for="tab in tabs" :key=tab.id :to="tab.link" :style="{width: tabWidth}">{{tab.name}}</router-link> -->
     </div>
-    <div class="head-spacer"></div>
     <router-view/>
   </div>
 </template>
@@ -133,12 +132,19 @@ footer{
   transition: height 500ms cubic-bezier(0.68, -0.55,  0.265, 1.55 );
 }
 
+.head-spacer{
+  height: 100px;
+}
+
 @media screen and (min-width: 750px){
   .coolnav{
     top: 4%;
     width: 95%;
     left: calc(2.5%);
     border-radius: 35px;
+  }
+  .head-spacer{
+    height: 150px;
   }
 }
 
@@ -196,9 +202,6 @@ footer{
   opacity: 0;
 }
 
-.head-spacer{
-  height: 100px;
-}
 
 @keyframes bounce-in {
   0%{
