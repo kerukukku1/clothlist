@@ -16,7 +16,7 @@
       </transition>
       <!-- <router-link v-for="tab in tabs" :key=tab.id :to="tab.link" :style="{width: tabWidth}">{{tab.name}}</router-link> -->
     </div>
-    <!-- <div class="head-spacer"></div> -->
+    <div class="head-spacer"></div>
     <router-view/>
   </div>
 </template>
