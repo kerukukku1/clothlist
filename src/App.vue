@@ -16,6 +16,7 @@
       </transition>
       <!-- <router-link v-for="tab in tabs" :key=tab.id :to="tab.link" :style="{width: tabWidth}">{{tab.name}}</router-link> -->
     </div>
+    <!-- <div class="head-spacer"></div> -->
     <router-view/>
   </div>
 </template>
@@ -60,7 +61,6 @@ export default class App extends Vue{
   onchange(){
     this.$nextTick(function() {
         this.$set(this.styleObject, 'height', (this.isOpen)?this.$refs.body.getBoundingClientRect().height+'px':'60px')
-        console.log(this.styleObject.height)
     })
   }
 
@@ -128,12 +128,18 @@ footer{
   background: #2c3e50;
   color: aquamarine;
   font-weight: bold;
-  border-radius: 35px;
   position: fixed;
-  top: 4%;
-  width: 95%;
-  left: calc(2.5%);
+  width: 100%;
   transition: height 500ms cubic-bezier(0.68, -0.55,  0.265, 1.55 );
+}
+
+@media screen and (min-width: 750px){
+  .coolnav{
+    top: 4%;
+    width: 95%;
+    left: calc(2.5%);
+    border-radius: 35px;
+  }
 }
 
 .content{
@@ -188,6 +194,10 @@ footer{
   height: 0;
   padding: 0 10px;
   opacity: 0;
+}
+
+.head-spacer{
+  height: 100px;
 }
 
 @keyframes bounce-in {
