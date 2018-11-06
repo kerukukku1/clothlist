@@ -27,4 +27,9 @@ mongooseにbase64 encodingされた画像を保存していく形式
     - id    : string =>   洋服のID
     - tag   : [string] => 洋服に対するタグ
     - genre : [string] => 洋服のジャンル
-    
+
+- VueComponent 設計
+    - サイドバー
+    - メインエリア
+    - 衣服ボックス
+    - 衣服ボックス内容
