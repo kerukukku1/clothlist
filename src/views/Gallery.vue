@@ -5,12 +5,28 @@
       <div class="title-content">
         Gallery.
       </div>
-      <div class="gridbox">
+      <div class="main-gridbox">
         <div class=sidecontent>
-          ここにさいどばーがくるよ
+          <div class="side-head">
+            Clothet.
+          </div>
+          はろはろ
         </div>
         <div class=maincontent>
-          ここに洋服がくるよ
+          <div class="cloth-gridbox">
+            <div class="cloth-item">
+              アロハシャツ
+            </div>
+            <div class="cloth-item">
+              パーカー
+            </div>
+            <div class="cloth-item">
+              ジーパン
+            </div>
+            <div class="cloth-item">
+              ソックス
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -36,18 +52,46 @@ export default class Gallery extends Vue {
   min-height: 100vh;
 }
 
-.gridbox {
+.main-gridbox {
   display: grid;
-  grid-gap: 10px;
-  grid-template-columns: 1fr 3fr;
+  grid-gap: 0px;
+  grid-template-columns: 2fr 7fr;
 }
 
 .sidecontent{
   order: 0;
+  background-color: #0000001e;
+  height: 620px;
+  overflow: scroll;
 }
 
 .maincontent{
   order: 1;
-  background-color: red;
+  background-color: rgb(230, 222, 130);
+  padding: 10px;
+  height: 600px;
+  overflow: scroll;
+}
+
+.side-head{
+  width: 100%;
+  background-color: azure;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.cloth-gridbox{
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.cloth-item{
+  background-color: white;
+  border-radius: 10px;
+  border-color: black;
+  padding: 20px;
+  text-align: center;
+  height: 60px;
 }
 </style>
