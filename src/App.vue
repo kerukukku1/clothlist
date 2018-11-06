@@ -16,7 +16,6 @@
       </transition>
       <!-- <router-link v-for="tab in tabs" :key=tab.id :to="tab.link" :style="{width: tabWidth}">{{tab.name}}</router-link> -->
     </div>
-    <!-- <div class="head-spacer"></div> -->
     <router-view/>
   </div>
 </template>
@@ -126,24 +125,55 @@ footer{
 
 .coolnav{
   background: #2c3e50;
-  color: aquamarine;
+  color: white;
   font-weight: bold;
   position: fixed;
   width: 100%;
   transition: height 500ms cubic-bezier(0.68, -0.55,  0.265, 1.55 );
 }
 
+.head-spacer{
+  height: 40px;
+  background-color: #ffffff00;
+}
+
+.title-content{
+    height: 100px;
+    background-color: #2c3e50;
+    text-align: center;
+    color: aquamarine;
+    font-size: 40px;
+    font-weight: bold;
+    padding: 20px;
+}
+
 @media screen and (min-width: 750px){
   .coolnav{
-    top: 4%;
+    top: 2%;
     width: 95%;
     left: calc(2.5%);
     border-radius: 35px;
+  }
+  .head-spacer{
+    height: 80px;
+    background-color: #2c3e50;
   }
 }
 
 .content{
   margin-top: 120px;
+}
+
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+  display: table;
+  transition: opacity .3s ease;
 }
 
 .accordion-content::before{
@@ -196,9 +226,6 @@ footer{
   opacity: 0;
 }
 
-.head-spacer{
-  height: 100px;
-}
 
 @keyframes bounce-in {
   0%{
