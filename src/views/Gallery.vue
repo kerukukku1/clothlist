@@ -13,7 +13,8 @@
           はろはろ
         </div>
         <div class=maincontent>
-          <div class="cloth-gridbox">
+          <cloth-box path="../assets/users/mahito6"></cloth-box>
+          <!-- <div class="cloth-gridbox">
             <div class="cloth-item">
               <div class="cloth-item-image"></div>
               アロハシャツ
@@ -30,7 +31,7 @@
               <div class="cloth-item-image"></div>
               ソックス
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -39,9 +40,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import ClothBox from '@/views/ClothBox.vue';
 
 @Component({
   components: {
+    'cloth-box' : ClothBox
   },
 })
 export default class Gallery extends Vue {
@@ -101,13 +104,5 @@ export default class Gallery extends Vue {
 
 .cloth-item-detail{
 
-}
-
-.cloth-item{
-  background-color: white;
-  border-radius: 10px;
-  border-color: black;
-  padding: 20px;
-  height: 200px;
 }
 </style>
