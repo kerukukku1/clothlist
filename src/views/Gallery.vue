@@ -2,6 +2,9 @@
   <div>
     <div class="main-content">
       <div class="head-spacer"></div>
+      <div class="title-content">
+        Gallery.
+      </div>
       <div class="flexbox">
         Hello World.
       </div>

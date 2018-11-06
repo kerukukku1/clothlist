@@ -133,18 +133,26 @@ footer{
 }
 
 .head-spacer{
-  height: 100px;
+  height: 80px;
+  background-color: #ffffff00;
+}
+
+.title-content{
+    height: 100px;
+    background-color: #2c3e50;
+    text-align: center;
 }
 
 @media screen and (min-width: 750px){
   .coolnav{
-    top: 4%;
+    top: 2%;
     width: 95%;
     left: calc(2.5%);
     border-radius: 35px;
   }
   .head-spacer{
-    height: 150px;
+    height: 80px;
+    background-color: #2c3e50;
   }
 }
 
