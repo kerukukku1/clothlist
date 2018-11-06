@@ -125,7 +125,7 @@ footer{
 
 .coolnav{
   background: #2c3e50;
-  color: aquamarine;
+  color: white;
   font-weight: bold;
   position: fixed;
   width: 100%;
@@ -133,7 +133,7 @@ footer{
 }
 
 .head-spacer{
-  height: 80px;
+  height: 40px;
   background-color: #ffffff00;
 }
 
@@ -141,6 +141,10 @@ footer{
     height: 100px;
     background-color: #2c3e50;
     text-align: center;
+    color: aquamarine;
+    font-size: 40px;
+    font-weight: bold;
+    padding: 20px;
 }
 
 @media screen and (min-width: 750px){
@@ -158,6 +162,18 @@ footer{
 
 .content{
   margin-top: 120px;
+}
+
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+  display: table;
+  transition: opacity .3s ease;
 }
 
 .accordion-content::before{
