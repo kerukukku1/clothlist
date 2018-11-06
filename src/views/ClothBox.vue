@@ -1,7 +1,7 @@
 <template>
     <div class="cloth-gridbox">
         <cloth-box-item v-for="item in items" :key="item.id">
-            {{item}}
+            {{item}} => Show Details
         </cloth-box-item>
     </div>
 </template>
@@ -28,12 +28,4 @@ export default class ClothBox extends Vue{
     grid-template-columns: repeat(auto-fill, auto);
 }
 
-.cloth-item{
-    background-color: white;
-    border-radius: 10px;
-    border-color: black;
-    padding: 20px;
-    height: 250px;
-    max-width: 300px;
-}
 </style>

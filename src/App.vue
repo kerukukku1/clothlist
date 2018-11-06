@@ -134,7 +134,7 @@ footer{
 
 .head-spacer{
   height: 40px;
-  background-color: #ffffff00;
+  background-color: #2c3e50;
 }
 
 .title-content{
@@ -155,7 +155,7 @@ footer{
     border-radius: 35px;
   }
   .head-spacer{
-    height: 80px;
+    height: 60px;
     background-color: #2c3e50;
   }
 }
