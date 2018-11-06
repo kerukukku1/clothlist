@@ -15,15 +15,19 @@
         <div class=maincontent>
           <div class="cloth-gridbox">
             <div class="cloth-item">
+              <div class="cloth-item-image"></div>
               アロハシャツ
             </div>
             <div class="cloth-item">
+              <div class="cloth-item-image"></div>
               パーカー
             </div>
             <div class="cloth-item">
+              <div class="cloth-item-image"></div>
               ジーパン
             </div>
             <div class="cloth-item">
+              <div class="cloth-item-image"></div>
               ソックス
             </div>
           </div>
@@ -86,12 +90,24 @@ export default class Gallery extends Vue {
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
+.cloth-item-image{
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-image: url("../assets/users/mahito6/IMG_7696.jpg");
+}
+
+.cloth-item-detail{
+
+}
+
 .cloth-item{
   background-color: white;
   border-radius: 10px;
   border-color: black;
   padding: 20px;
-  text-align: center;
-  height: 60px;
+  height: 200px;
 }
 </style>
