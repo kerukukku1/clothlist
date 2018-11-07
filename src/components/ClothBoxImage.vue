@@ -7,7 +7,7 @@
 import {Vue, Component} from 'vue-property-decorator'
 
 @Component({})
-export default class ClothBoxItem extends Vue{
+export default class ClothBoxImage extends Vue{
 
 }
 </script>

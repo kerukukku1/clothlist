@@ -46,7 +46,8 @@ export default class App extends Vue{
           {name: 'About.', link: '/about'}
         ],
         Management: [
-          {name: 'Gallery.', link: '/gallery'}
+          {name: 'Gallery.', link: '/gallery'},
+          {name: 'Upload.', link: '/upload'},
         ]
   };
   styleObject : {height: string} = {

@@ -40,7 +40,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import ClothBox from '@/views/ClothBox.vue';
+import ClothBox from '@/components/ClothBox.vue';
 
 @Component({
   components: {

@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import {Vue, Component} from 'vue-property-decorator'
-import boxImage from '@/views/ClothBoxImage.vue'
+import boxImage from '@/components/ClothBoxImage.vue'
 
 @Component({
     components:{
