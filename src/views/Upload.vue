@@ -7,7 +7,7 @@
         </div>
         <input type="file" mulitple="multiple" accept="image/*" @change="onDrop">
         <input type="submit" name="submit" value="アップロード開始" @click="onSubmit">
-        <preview-canvas></preview-canvas>
+        <preview-canvas ref="preview"></preview-canvas>
     </div>
 </template>
 
@@ -23,7 +23,7 @@ import axios from 'axios';
 })
 export default class Upload extends Vue {
     title : string = ""
-    files : Array<Blob> = []
+    file : Blob = new Blob();
 
     getBase64(file : Blob) {
         var reader = new FileReader();
@@ -38,18 +38,16 @@ export default class Upload extends Vue {
 
     onSubmit(){
         console.log("submit!")
-        console.log(this.files)
-        for(let file of this.files){
-            var blobUrl = URL.createObjectURL( file ) ;
-            var xhr = new XMLHttpRequest();
-            xhr.onload = function() {
-                var result = xhr.response;
-                this.getBase64(result);
-            }.bind(this);
-            xhr.responseType = "blob";
-            xhr.open("GET", blobUrl);
-            xhr.send();
-        }
+        console.log(this.file)
+        // var blobUrl = URL.createObjectURL( this.file ) ;
+        // var xhr = new XMLHttpRequest();
+        // xhr.onload = function() {
+        //     var result = xhr.response;
+        //     this.getBase64(result);
+        // }.bind(this);
+        // xhr.responseType = "blob";
+        // xhr.open("GET", blobUrl);
+        // xhr.send();
     }
 
     onDrop(event : Event){
@@ -62,7 +60,8 @@ export default class Upload extends Vue {
         // xhr.responseType = "blob";
         // xhr.open("GET", blobUrl);
         // xhr.send();
-        this.files = event.target.files
+        this.file = event.target.files[0]
+        this.$refs.preview.onPreview(this.file)
         console.log("change detect")
     }
     created(){
