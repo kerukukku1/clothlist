@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -16,7 +17,11 @@ type Person struct {
 	Age  int           `bson:"age"`
 }
 
+func test(w http.ResponseWriter, r *http.Request) {
+}
+
 func PostImageBlob(w http.ResponseWriter, r *http.Request) {
+	fmt.Print("post detect")
 	reader, err := r.MultipartReader()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -36,6 +41,10 @@ func PostImageBlob(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	router := mux.NewRouter()
-	router.HandleFunc("/images/{id}", PostImageBlob).Methods("POST")
-	log.Fatal(http.ListenAndServe(":5000", router))
+	allowedOrigins := handlers.AllowedOrigins([]string{"http://localhost:8080"})
+	allowedMethods := handlers.AllowedMethods([]string{"GET", "POST", "DELETE", "PUT", "OPTIONS"})
+	allowedHeaders := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
+	router.HandleFunc("/images/post", PostImageBlob).Methods("POST")
+	router.HandleFunc("/images/post", test).Methods("GET")
+	log.Fatal(http.ListenAndServe(":5000", handlers.CORS(allowedOrigins, allowedMethods, allowedHeaders)(router)))
 }

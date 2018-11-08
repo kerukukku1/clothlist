@@ -3,7 +3,7 @@
     <div class="coolnav" @mouseleave="closeAccordion()" :style="styleObject" v-if="show">
       <div :style="{marginRight: '15px'}">
         <navigation-item v-for="(tab, key) in tabs" :key="tab.id" @open-accordion="openAccordion(key)"> 
-          {{key}}
+          <span class="stronger">{{key}}</span>
         </navigation-item>
       </div>
       <transition name="ac-content">
@@ -130,7 +130,8 @@ footer{
 }
 
 .coolnav{
-  background: linear-gradient(-45deg, rgba(246, 255, 0, 1), rgba(255, 66, 161, 1));
+  /* background: linear-gradient(-45deg, rgba(246, 255, 0, 1), rgba(255, 66, 161, 1)); */
+  background: linear-gradient(-45deg, rgb(128, 255, 93), rgb(22, 173, 255));
   /* background: #2c3e50; */
   color: white;
   font-weight: bold;
@@ -231,6 +232,11 @@ footer{
   height: 0;
   padding: 0 10px;
   opacity: 0;
+}
+
+.stronger{
+  color: #ffffff;
+  font-weight: bold;
 }
 
 @keyframes bounce-in {

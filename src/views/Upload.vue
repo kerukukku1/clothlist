@@ -38,16 +38,16 @@ export default class Upload extends Vue {
 
     onSubmit(){
         console.log("submit!")
-        console.log(this.file)
-        // var blobUrl = URL.createObjectURL( this.file ) ;
-        // var xhr = new XMLHttpRequest();
-        // xhr.onload = function() {
-        //     var result = xhr.response;
-        //     this.getBase64(result);
-        // }.bind(this);
-        // xhr.responseType = "blob";
-        // xhr.open("GET", blobUrl);
-        // xhr.send();
+        axios.post('http://localhost:5000/images/post', {
+            headers : {
+                'Content-type' : "application/json"
+            }
+        }).then(response => {
+            console.log(response)
+        })
+        .catch(e => {
+            console.log(e)
+        })
     }
 
     onDrop(event : Event){
