@@ -64,6 +64,11 @@ export default class App extends Vue{
     })
   }
 
+  @Watch('$route')
+  forceClose(){
+    this.closeAccordion()
+  }
+
   openAccordion(key : string) {
     this.contentKey = key
     this.isOpen = true
@@ -191,11 +196,11 @@ footer{
 }
 
 .view-enter-active, .view-leave-active {
-  animation: bounce-in 500ms;
+  animation: RightToLeft 500ms;
 }
 
 .view-enter, .view-leave-to {
-  animation: bounce-in 500ms reverse;
+  animation: RightToLeft 500ms reverse;
 }
 
 .ac-content-enter-active{
@@ -227,7 +232,6 @@ footer{
   opacity: 0;
 }
 
-
 @keyframes bounce-in {
   0%{
     transform: scale(0.5)
@@ -244,6 +248,17 @@ footer{
   100%{
     transform: scale(1.0) rotate(360deg);
   } */
+}
+
+@keyframes RightToLeft {
+  0% {
+    opacity: 0.5;
+    /* transform: translateX(1050px); */
+  }
+  100% {
+    opacity: 1;
+    /* transform: translateX(0); */
+  }
 }
 
 </style>
