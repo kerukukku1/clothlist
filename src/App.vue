@@ -130,7 +130,8 @@ footer{
 }
 
 .coolnav{
-  background: #2c3e50;
+  background: linear-gradient(-45deg, rgba(246, 255, 0, 1), rgba(255, 66, 161, 1));
+  /* background: #2c3e50; */
   color: white;
   font-weight: bold;
   position: fixed;
@@ -144,13 +145,13 @@ footer{
 }
 
 .title-content{
-    height: 100px;
+    height: 30px;
     background-color: #2c3e50;
     text-align: center;
-    color: aquamarine;
+    color: white;
     font-size: 40px;
     font-weight: bold;
-    padding: 20px;
+    padding: 60px;
 }
 
 @media screen and (min-width: 750px){
