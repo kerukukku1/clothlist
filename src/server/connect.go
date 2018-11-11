@@ -11,7 +11,16 @@ import (
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
+	mgo "gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 )
+
+type Image struct {
+	ID    bson.ObjectId `bson:"_id"`
+	Title string        `bson:"title"`
+	Path  string        `bson:"path"`
+	link  string        `bson:"link"`
+}
 
 func init() {
 	rand.Seed(time.Now().UnixNano())
@@ -31,39 +40,64 @@ func test(w http.ResponseWriter, r *http.Request) {
 }
 
 func PostImageBlob(w http.ResponseWriter, r *http.Request) {
-	fmt.Print("post detect")
 	err := r.ParseMultipartForm(32 << 20) // maxMemory
+	fmt.Println("post detect")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Print("memory ok")
+	fmt.Println("memory")
 	file, _, err := r.FormFile("imagefile")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Print("file get ok")
+	fmt.Println("file get")
 	defer file.Close()
 	title := r.FormValue("title")
 	if len(title) == 0 {
 		return
 	}
-	fmt.Print("title get ok")
-	f, err := os.Create("./images/" + RandString1(20) + ".jpg")
+	fmt.Println("title get")
+	link := RandString1(20)
+	p, _ := os.Getwd()
+	path := p + "/images/" + link + ".jpg"
+	f, err := os.Create(path)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	fmt.Println("create path")
+	newImage := &Image{
+		ID:    bson.NewObjectId(),
+		Path:  path,
+		Title: title,
+		link:  link,
+	}
+	mongoSaveImage(*newImage)
+
 	fmt.Print("image save ok")
 	defer f.Close()
 	io.Copy(f, file)
 }
 
+func mongoSaveImage(newImage Image) {
+	fmt.Println("mongosave func")
+	session, _ := mgo.Dial("mongodb://localhost/test")
+	//この関数が終わる時にsessionをcloseする
+	defer session.Close()
+	db := session.DB("test")
+	column := db.C("images")
+	if err := column.Insert(&newImage); err != nil {
+		log.Fatalln(err)
+		fmt.Println(err)
+	}
+}
+
 func main() {
 	router := mux.NewRouter()
 	os.Mkdir("images", 0777)
-	allowedOrigins := handlers.AllowedOrigins([]string{"http://localhost:8080"})
+	allowedOrigins := handlers.AllowedOrigins([]string{"http://localhost:8080", "http://192.168.11.8:8080"})
 	allowedMethods := handlers.AllowedMethods([]string{"GET", "POST", "DELETE", "PUT", "OPTIONS"})
 	allowedHeaders := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
 	router.HandleFunc("/images/post", PostImageBlob).Methods("POST")

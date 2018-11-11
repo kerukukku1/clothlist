@@ -5,8 +5,11 @@
         <div class="title-content">
             Upload Form
         </div>
-        <input type="file" mulitple="multiple" accept="image/*" @change="onDrop">
-        <input type="submit" name="submit" value="アップロード開始" @click="onSubmit">
+        <!-- <form action="http://localhost:5000/images/post" method="post" enctype="multipart/form-data" onsubmit="return false;"> -->
+            <input type="file" name="imagefile" mulitple="multiple" accept="image/*" @change="onDrop">
+            <input type="text" name="title" v-model="title">
+            <input type="submit" name="submit" value="アップロード開始" @click="onSubmit">
+        <!-- </form> -->
         <preview-canvas ref="preview"></preview-canvas>
     </div>
 </template>
@@ -38,16 +41,37 @@ export default class Upload extends Vue {
 
     onSubmit(){
         console.log("submit!")
-        axios.post('http://localhost:5000/images/post', {
+        let postData = new FormData()
+        postData.append('title', this.title)
+        postData.append('imagefile', this.file)
+        const options = {
             headers : {
-                'Content-type' : "application/json"
+                'content-type': 'multipart/form-data',
             }
-        }).then(response => {
-            console.log(response)
+        }
+        axios.post('http://192.168.11.8:5000/images/post', postData, options)
+        .then(function (res){
+            console.log(res)
         })
-        .catch(e => {
-            console.log(e)
+        .catch(function (err){
+            console.log(err)
         })
+        // const options = {
+        //     method: 'POST',
+        //     headers: { 
+        //         'Content-type' : "application/json"
+        //     },
+        //     data: this.file,
+        //     url : 'http://localhost:5000/images/post'
+        // };
+        // let params = new URLSearchParams();
+        // params.append('body', JSON.stringify(this.file));
+        // axios.post('http://localhost:5000/images/post', params).then(response => {
+        //     console.log(response)
+        // })
+        // .catch(e => {
+        //     console.log(e)
+        // })
     }
 
     onDrop(event : Event){
