@@ -41,24 +41,20 @@ func test(w http.ResponseWriter, r *http.Request) {
 
 func PostImageBlob(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseMultipartForm(32 << 20) // maxMemory
-	fmt.Println("post detect")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Println("memory")
 	file, _, err := r.FormFile("imagefile")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Println("file get")
 	defer file.Close()
 	title := r.FormValue("title")
 	if len(title) == 0 {
 		return
 	}
-	fmt.Println("title get")
 	link := RandString1(20)
 	p, _ := os.Getwd()
 	path := p + "/images/" + link + ".jpg"
@@ -67,7 +63,6 @@ func PostImageBlob(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fmt.Println("create path")
 	newImage := &Image{
 		ID:    bson.NewObjectId(),
 		Path:  path,
@@ -76,13 +71,11 @@ func PostImageBlob(w http.ResponseWriter, r *http.Request) {
 	}
 	mongoSaveImage(*newImage)
 
-	fmt.Print("image save ok")
 	defer f.Close()
 	io.Copy(f, file)
 }
 
 func mongoSaveImage(newImage Image) {
-	fmt.Println("mongosave func")
 	session, _ := mgo.Dial("mongodb://localhost/test")
 	//この関数が終わる時にsessionをcloseする
 	defer session.Close()
