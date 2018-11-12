@@ -13,25 +13,7 @@
           はろはろ
         </div>
         <div class=maincontent>
-          <cloth-box path="../assets/users/mahito6"></cloth-box>
-          <!-- <div class="cloth-gridbox">
-            <div class="cloth-item">
-              <div class="cloth-item-image"></div>
-              アロハシャツ
-            </div>
-            <div class="cloth-item">
-              <div class="cloth-item-image"></div>
-              パーカー
-            </div>
-            <div class="cloth-item">
-              <div class="cloth-item-image"></div>
-              ジーパン
-            </div>
-            <div class="cloth-item">
-              <div class="cloth-item-image"></div>
-              ソックス
-            </div>
-          </div> -->
+          <cloth-box></cloth-box>
         </div>
       </div>
     </div>
@@ -41,6 +23,13 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import ClothBox from '@/components/ClothBox.vue';
+import axios from 'axios'
+
+interface myImage {
+  ID : string,
+  Title : string,
+  Path : string
+}
 
 @Component({
   components: {
