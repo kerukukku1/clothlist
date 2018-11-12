@@ -71,6 +71,33 @@ func PostImageBlob(w http.ResponseWriter, r *http.Request) {
 	io.Copy(f, file)
 }
 
+func convertJSON(image Image) string {
+	img, err := json.Marshal(image)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	return string(img)
+}
+func findObjID(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	session, _ := mgo.Dial("mongodb://localhost/test")
+	defer session.Close()
+	db := session.DB("test")
+	idStr := params["objID"]
+	if !bson.IsObjectIdHex(idStr) {
+		fmt.Println("not objectId")
+		return
+	}
+	id := bson.ObjectIdHex(idStr)
+
+	var image Image
+	if err := db.C(params["column"]).FindId(id).One(&image); err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Printf("%+v", image)
+}
+
 func findTagImage(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	session, _ := mgo.Dial("mongodb://localhost/test")
@@ -84,11 +111,7 @@ func findTagImage(w http.ResponseWriter, r *http.Request) {
 	ret := ""
 	ret += "["
 	for _, image := range images {
-		img, err := json.Marshal(image)
-		if err != nil {
-			log.Fatalln(err)
-		}
-		ret += string(img)
+		ret += convertJSON(image)
 		ret += ","
 	}
 	sc := []rune(ret)
@@ -117,5 +140,6 @@ func main() {
 	allowedHeaders := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
 	router.HandleFunc("/images/post", PostImageBlob).Methods("POST")
 	router.HandleFunc("/images/api/{column}", findTagImage).Methods("GET")
+	router.HandleFunc("/images/api/{column}/{objID}", findObjID).Methods("GET")
 	log.Fatal(http.ListenAndServe(":5000", handlers.CORS(allowedOrigins, allowedMethods, allowedHeaders)(router)))
 }

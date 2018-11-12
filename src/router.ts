@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Top from './views/Top.vue';
 import Gallery from './views/Gallery.vue'
 import Upload from '@/views/Upload.vue'
+import Detail from '@/views/Detail.vue'
 
 Vue.use(Router);
 
@@ -32,6 +33,11 @@ export default new Router({
       path: '/upload',
       name: 'upload',
       component : Upload
+    },
+    {
+      path: '/gallery/:id',
+      name: 'detail',
+      component : Detail
     }
   ],
 });
