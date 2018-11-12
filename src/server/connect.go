@@ -20,7 +20,6 @@ type Image struct {
 	ID    bson.ObjectId `bson:"_id"`
 	Title string        `bson:"title"`
 	Path  string        `bson:"path"`
-	link  string        `bson:"link"`
 }
 
 func init() {
@@ -53,9 +52,8 @@ func PostImageBlob(w http.ResponseWriter, r *http.Request) {
 	if len(title) == 0 {
 		return
 	}
-	link := RandString1(20)
 	p, _ := os.Getwd()
-	path := p + "/images/" + link + ".jpg"
+	path := p + "/images/" + RandString1(20) + ".jpg"
 	f, err := os.Create(path)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -65,7 +63,6 @@ func PostImageBlob(w http.ResponseWriter, r *http.Request) {
 		ID:    bson.NewObjectId(),
 		Path:  path,
 		Title: title,
-		link:  link,
 	}
 	mongoSaveImage(*newImage)
 
