@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import {Vue, Component} from 'vue-property-decorator'
+import {Vue, Component, Prop} from 'vue-property-decorator'
 
 interface boxImage{
     width : string,
@@ -18,6 +18,8 @@ interface boxImage{
 
 @Component({})
 export default class ClothBoxImage extends Vue{
+    @Prop() imagePath! : string
+    path : string = ""
     boximage: boxImage = {
         width : "100%",
         height : "200px",
@@ -26,8 +28,13 @@ export default class ClothBoxImage extends Vue{
         backgroundPosition : "center",
         'background-image' : ''
     }
-    created() {
-        Vue.set(this.boximage, 'backgroundImage', 'url('+require("../assets/users/mahito6/IMG_7696.jpg")+')')
+    getImgUrl(data: string){
+        return require(data)
+    }
+    mounted() {
+        console.log(this.imagePath)
+        this.path = this.imagePath
+        Vue.set(this.boximage, 'backgroundImage', 'url('+require('@/server/'+this.path)+')')
     }
 }
 </script>

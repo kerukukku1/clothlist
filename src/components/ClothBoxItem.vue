@@ -1,14 +1,20 @@
 <template>
     <div class="cloth-item">
-        <cloth-box-image></cloth-box-image>
+        <cloth-box-image :imagePath="imageData.Path"></cloth-box-image>
         <hr>
         <slot></slot>
     </div>
 </template>
 
 <script lang="ts">
-import {Vue, Component} from 'vue-property-decorator'
+import {Vue, Component, Prop} from 'vue-property-decorator'
 import boxImage from '@/components/ClothBoxImage.vue'
+
+interface myImage {
+    ID : string,
+    Title : string,
+    Path : string
+}
 
 @Component({
     components:{
@@ -16,7 +22,9 @@ import boxImage from '@/components/ClothBoxImage.vue'
     }
 })
 export default class ClothBoxItem extends Vue{
-
+    @Prop() imageData!: myImage;
+    mounted() {
+    }
 }
 </script>
 

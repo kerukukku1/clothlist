@@ -1,14 +1,21 @@
 <template>
     <div class="cloth-gridbox">
-        <cloth-box-item v-for="item in items" :key="item.id">
-            {{item}} => Show Details
+        <cloth-box-item v-for="item in images" :key="item.id" :imageData="item">
+            {{item.Title}} => Show Details
         </cloth-box-item>
     </div>
 </template>
 
 <script lang="ts">
-import {Vue, Component, Prop} from 'vue-property-decorator'
+import {Vue, Component, Prop, Watch} from 'vue-property-decorator'
 import boxItem from '@/components/ClothBoxItem.vue'
+import axios from 'axios'
+
+interface myImage {
+    ID : string,
+    Title : string,
+    Path : string
+}
 
 @Component({
     components: {
@@ -16,8 +23,22 @@ import boxItem from '@/components/ClothBoxItem.vue'
     }
 })
 export default class ClothBox extends Vue{
-    @Prop() private path!: string;
-    items : Array<string> = ["a", "b", "c", "d", "e", "f", "g"];
+    images : Array<myImage> = []
+
+    mounted() {
+        axios.get('http://localhost:5000/images/api/images', {
+            headers : {
+            'Content-type' : 'application/json'
+            }
+        }).then(function (res){
+            this.images = res.data
+            for(let index in this.images){
+                this.images[index].Path = this.images[index].Path
+            }
+        }.bind(this)).catch(function (err){
+            console.log(err)
+        })
+    }
 }
 </script>
 

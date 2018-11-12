@@ -52,8 +52,9 @@ func PostImageBlob(w http.ResponseWriter, r *http.Request) {
 	if len(title) == 0 {
 		return
 	}
-	p, _ := os.Getwd()
-	path := p + "/images/" + RandString1(20) + ".jpg"
+	// p, _ := os.Getwd()
+	// path := p + "/images/" + RandString1(20) + ".jpg"
+	path := "images/" + RandString1(20) + ".jpg"
 	f, err := os.Create(path)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -88,8 +89,10 @@ func findTagImage(w http.ResponseWriter, r *http.Request) {
 			log.Fatalln(err)
 		}
 		ret += string(img)
-		ret += ", "
+		ret += ","
 	}
+	sc := []rune(ret)
+	ret = string(sc[:(len(sc) - 1)])
 	ret += "]"
 	w.Write([]byte(ret))
 }
