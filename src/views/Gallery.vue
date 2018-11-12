@@ -40,7 +40,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import ClothBox from '@/views/ClothBox.vue';
+import ClothBox from '@/components/ClothBox.vue';
 
 @Component({
   components: {
@@ -67,7 +67,7 @@ export default class Gallery extends Vue {
 
 .sidecontent{
   order: 0;
-  background-color: #0000001e;
+  background-color: #2c3e50;
   height: 620px;
   overflow: scroll;
 }
@@ -82,9 +82,12 @@ export default class Gallery extends Vue {
 
 .side-head{
   width: 100%;
-  background-color: azure;
+  background-color: #344a5f;
   padding-top: 20px;
   padding-bottom: 20px;
+  color: white;
+  border-bottom: 2px white solid;
+  border-top: 2px white solid;
 }
 
 .cloth-gridbox{

@@ -6,6 +6,14 @@ import './registerServiceWorker';
 
 Vue.config.productionTip = false;
 
+
+// client.connect(function (err){
+//   console.log("connected!");
+//   const db = client.db("test")
+//   console.log(db)
+//   client.close();
+// })
+
 new Vue({
   router,
   store,

@@ -6,7 +6,6 @@
         Your closet is comfortable.
       </div>
     </div>
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
   </div>
 </template>
 
@@ -15,6 +14,7 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
   components: {
+
   },
 })
 export default class Top extends Vue {

@@ -3,7 +3,7 @@
     <div class="coolnav" @mouseleave="closeAccordion()" :style="styleObject" v-if="show">
       <div :style="{marginRight: '15px'}">
         <navigation-item v-for="(tab, key) in tabs" :key="tab.id" @open-accordion="openAccordion(key)"> 
-          {{key}}
+          <span class="stronger">{{key}}</span>
         </navigation-item>
       </div>
       <transition name="ac-content">
@@ -46,7 +46,8 @@ export default class App extends Vue{
           {name: 'About.', link: '/about'}
         ],
         Management: [
-          {name: 'Gallery.', link: '/gallery'}
+          {name: 'Gallery.', link: '/gallery'},
+          {name: 'Upload.', link: '/upload'},
         ]
   };
   styleObject : {height: string} = {
@@ -61,6 +62,11 @@ export default class App extends Vue{
     this.$nextTick(function() {
         this.$set(this.styleObject, 'height', (this.isOpen)?this.$refs.body.getBoundingClientRect().height+'px':'60px')
     })
+  }
+
+  @Watch('$route')
+  forceClose(){
+    this.closeAccordion()
   }
 
   openAccordion(key : string) {
@@ -124,7 +130,9 @@ footer{
 }
 
 .coolnav{
-  background: #2c3e50;
+  /* background: linear-gradient(-45deg, rgba(246, 255, 0, 1), rgba(255, 66, 161, 1)); */
+  background: linear-gradient(-45deg, rgb(128, 255, 93), rgb(22, 173, 255));
+  /* background: #2c3e50; */
   color: white;
   font-weight: bold;
   position: fixed;
@@ -138,22 +146,22 @@ footer{
 }
 
 .title-content{
-    height: 100px;
+    height: 30px;
     background-color: #2c3e50;
     text-align: center;
-    color: aquamarine;
+    color: white;
     font-size: 40px;
     font-weight: bold;
-    padding: 20px;
+    padding: 60px;
 }
 
 @media screen and (min-width: 750px){
-  .coolnav{
+  /* .coolnav{
     top: 2%;
     width: 95%;
     left: calc(2.5%);
     border-radius: 35px;
-  }
+  } */
   .head-spacer{
     height: 60px;
     background-color: #2c3e50;
@@ -190,11 +198,11 @@ footer{
 }
 
 .view-enter-active, .view-leave-active {
-  animation: bounce-in 500ms;
+  animation: RightToLeft 500ms;
 }
 
 .view-enter, .view-leave-to {
-  animation: bounce-in 500ms reverse;
+  animation: RightToLeft 500ms reverse;
 }
 
 .ac-content-enter-active{
@@ -226,6 +234,10 @@ footer{
   opacity: 0;
 }
 
+.stronger{
+  color: #ffffff;
+  font-weight: bold;
+}
 
 @keyframes bounce-in {
   0%{
@@ -243,6 +255,17 @@ footer{
   100%{
     transform: scale(1.0) rotate(360deg);
   } */
+}
+
+@keyframes RightToLeft {
+  0% {
+    opacity: 0.5;
+    /* transform: translateX(1050px); */
+  }
+  100% {
+    opacity: 1;
+    /* transform: translateX(0); */
+  }
 }
 
 </style>
