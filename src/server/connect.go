@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -34,9 +35,6 @@ func RandString1(n int) string {
 		b[i] = rs1Letters[rand.Intn(len(rs1Letters))]
 	}
 	return string(b)
-}
-
-func test(w http.ResponseWriter, r *http.Request) {
 }
 
 func PostImageBlob(w http.ResponseWriter, r *http.Request) {
@@ -75,6 +73,30 @@ func PostImageBlob(w http.ResponseWriter, r *http.Request) {
 	io.Copy(f, file)
 }
 
+func findTagImage(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	session, _ := mgo.Dial("mongodb://localhost/test")
+	defer session.Close()
+	var images []Image
+	db := session.DB("test")
+	fmt.Println(params["column"])
+	if err := db.C(params["column"]).Find(bson.M{}).All(&images); err != nil {
+		log.Fatal(err)
+	}
+	ret := ""
+	ret += "["
+	for _, image := range images {
+		img, err := json.Marshal(image)
+		if err != nil {
+			log.Fatalln(err)
+		}
+		ret += string(img)
+		ret += ", "
+	}
+	ret += "]"
+	w.Write([]byte(ret))
+}
+
 func mongoSaveImage(newImage Image) {
 	session, _ := mgo.Dial("mongodb://localhost/test")
 	//この関数が終わる時にsessionをcloseする
@@ -94,6 +116,6 @@ func main() {
 	allowedMethods := handlers.AllowedMethods([]string{"GET", "POST", "DELETE", "PUT", "OPTIONS"})
 	allowedHeaders := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
 	router.HandleFunc("/images/post", PostImageBlob).Methods("POST")
-	router.HandleFunc("/images/post", test).Methods("GET")
+	router.HandleFunc("/images/api/{column}", findTagImage).Methods("GET")
 	log.Fatal(http.ListenAndServe(":5000", handlers.CORS(allowedOrigins, allowedMethods, allowedHeaders)(router)))
 }

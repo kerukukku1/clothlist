@@ -49,7 +49,8 @@ export default class Upload extends Vue {
                 'content-type': 'multipart/form-data',
             }
         }
-        axios.post('http://192.168.11.8:5000/images/post', postData, options)
+        // axios.post('http://192.168.11.8:5000/images/post', postData, options)
+        axios.post('http://locahost:5000/images/post', postData, options)
         .then(function (res){
             console.log(res)
         })
