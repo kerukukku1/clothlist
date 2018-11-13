@@ -138,6 +138,7 @@ footer{
   position: fixed;
   width: 100%;
   transition: height 500ms cubic-bezier(0.68, -0.55,  0.265, 1.55 );
+  z-index:9999;
 }
 
 .head-spacer{

@@ -1,7 +1,7 @@
 <template>
     <div class="cloth-gridbox">
         <cloth-box-item v-for="item in images" :key="item.id" :imageData="item">
-            {{item.Title}} => Show Details
+            <a :href="'/gallery/'+item.ID"> {{item.Title}} </a>
         </cloth-box-item>
     </div>
 </template>
@@ -47,6 +47,11 @@ export default class ClothBox extends Vue{
     display: grid;
     grid-gap: 10px;
     grid-template-columns: repeat(auto-fill, auto);
+}
+
+a {
+    color: black;
+    font-weight: bold;
 }
 
 </style>
