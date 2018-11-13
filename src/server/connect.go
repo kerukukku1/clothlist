@@ -95,7 +95,7 @@ func findObjID(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
-	fmt.Printf("%+v", image)
+	w.Write([]byte(convertJSON(image)))
 }
 
 func findTagImage(w http.ResponseWriter, r *http.Request) {
@@ -139,7 +139,7 @@ func main() {
 	allowedMethods := handlers.AllowedMethods([]string{"GET", "POST", "DELETE", "PUT", "OPTIONS"})
 	allowedHeaders := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
 	router.HandleFunc("/images/post", PostImageBlob).Methods("POST")
-	router.HandleFunc("/images/api/{column}", findTagImage).Methods("GET")
-	router.HandleFunc("/images/api/{column}/{objID}", findObjID).Methods("GET")
+	router.HandleFunc("/api/{column}", findTagImage).Methods("GET")
+	router.HandleFunc("/api/{column}/{objID}", findObjID).Methods("GET")
 	log.Fatal(http.ListenAndServe(":5000", handlers.CORS(allowedOrigins, allowedMethods, allowedHeaders)(router)))
 }
