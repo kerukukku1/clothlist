@@ -5,16 +5,20 @@
             Detail - {{mydetail.Title}}
         </div>
         <div :style="boximage">
-            <div class="image-wrapper">
+            <div class="image-wrapper" @click="open=true">
                 click to fullscreen
             </div>
         </div>
+        <image-modal v-if="open" v-on:close="open=false">
+            <img :src="require('@/server/'+this.path)"/>>
+        </image-modal>
     </div>
 </template>
 
 <script lang="ts">
 import {Vue, Component} from 'vue-property-decorator'
 import axios from 'axios'
+import modal from '@/components/ImageModal.vue'
 
 interface boxImage{
     width : string,
@@ -22,15 +26,18 @@ interface boxImage{
     minHeight : string,
     backgroundSize : string,
     backgroundPosition : string,
-    "background-image" : string,
+    "backgroundImage" : string,
     margin : string
 }
 
 @Component({
-    
+    components: {
+        'image-modal' : modal
+    }
 })
 export default class Detail extends Vue {
     id : string = ""
+    open : boolean = false;
     mydetail : string = "aeiuo"
     path : string = ""
     boximage: boxImage = {
@@ -39,7 +46,7 @@ export default class Detail extends Vue {
         minHeight : "50vh",
         backgroundSize : "cover",
         backgroundPosition : "center",
-        'background-image' : '',
+        'backgroundImage' : '',
         margin : "0 auto"
     }
     created() {
@@ -74,5 +81,12 @@ export default class Detail extends Vue {
     justify-content: center;
     align-items: center;
     text-decoration-line: underline;
+    cursor: pointer;
+}
+
+
+img {
+    width: 60%;
+    height: auto;
 }
 </style>
