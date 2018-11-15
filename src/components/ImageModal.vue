@@ -1,8 +1,8 @@
 <template>
     <transition name="modal" appear>
         <div class="modal-overlay" @click.self="$emit('close')">
-            <div class="modal-window">
-                <div class="modal-content">
+            <div class="modal-window"  @click.self="$emit('close')">
+                <div class="modal-content"  @click.self="$emit('close')">
                     <slot></slot>
                 </div>
             </div>
@@ -32,6 +32,11 @@ export default class ImageModal extends Vue{
     width: 100vw;
     height: 100vh;
     background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-window{
+    width: auto;
+    height: auto;
 }
 
 </style>

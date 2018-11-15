@@ -10,7 +10,7 @@
             </div>
         </div>
         <image-modal v-if="open" v-on:close="open=false">
-            <img :src="require('@/server/'+this.path)"/>>
+            <img :class="{'w-image' : longW, 'h-image' : !longW}" :src="require('@/server/'+this.path)"/>
         </image-modal>
     </div>
 </template>
@@ -40,6 +40,7 @@ export default class Detail extends Vue {
     open : boolean = false;
     mydetail : string = "aeiuo"
     path : string = ""
+    longW : boolean = false
     boximage: boxImage = {
         width : "100vw",
         height : "auto",
@@ -60,6 +61,15 @@ export default class Detail extends Vue {
             this.mydetail = res.data
             this.path = this.mydetail.Path
             Vue.set(this.boximage, 'backgroundImage', 'url('+require('@/server/'+this.path)+')')
+            let img = new Image
+            img.src = require('@/server/'+this.path);
+            img.onload = function() {
+                if (img.naturalWidth > img.naturalHeight){
+                    this.longW = true
+                }else{
+                    this.longW = false
+                }
+            }.bind(this)
         }.bind(this)).catch(function (err){
             console.log(err)
         })
@@ -85,8 +95,12 @@ export default class Detail extends Vue {
 }
 
 
-img {
+.w-image {
     width: 60%;
     height: auto;
+}
+.h-image {
+    height: auto;
+    width: 30%;
 }
 </style>
