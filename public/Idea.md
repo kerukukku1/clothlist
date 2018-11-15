@@ -20,13 +20,17 @@
 ## Galleryアイデア
 mongooseにbase64 encodingされた画像を保存していく形式
 
-- DB設計
+- 画像DB設計
     - title : string =>   服のタイトル
     - image : string =>   encodingされた画像
     - date  : date   =>   追加日時等
     - id    : string =>   洋服のID
     - tag   : [string] => 洋服に対するタグ
-    - genre : [string] => 洋服のジャンル
+
+- 画像詳細DB設計
+    - parentObjectId    :画像DBに紐付けるOID
+    - comment           :洋服への詳細(Markdown)
+    - withCloth         :一緒に着る服
 
 - VueComponent 設計
     - サイドバー

@@ -1,7 +1,7 @@
 <template>
     <div class="cloth-gridbox">
         <cloth-box-item v-for="item in images" :key="item.id" :imageData="item">
-            {{item.Title}} => Show Details
+            <a :href="'/gallery/'+item.ID"> {{item.Title}} </a>
         </cloth-box-item>
     </div>
 </template>
@@ -26,9 +26,9 @@ export default class ClothBox extends Vue{
     images : Array<myImage> = []
 
     mounted() {
-        axios.get('http://localhost:5000/images/api/images', {
+        axios.get('http://localhost:5000/api/images', {
             headers : {
-            'Content-type' : 'application/json'
+                'Content-type' : 'application/json'
             }
         }).then(function (res){
             this.images = res.data
@@ -47,6 +47,11 @@ export default class ClothBox extends Vue{
     display: grid;
     grid-gap: 10px;
     grid-template-columns: repeat(auto-fill, auto);
+}
+
+a {
+    color: black;
+    font-weight: bold;
 }
 
 </style>
