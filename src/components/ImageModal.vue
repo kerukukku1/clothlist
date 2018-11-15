@@ -39,4 +39,17 @@ export default class ImageModal extends Vue{
     height: auto;
 }
 
+.modal-enter-active, .modal-leave-active {
+    transition: opacity 0.3s;
+}
+
+.modal-leave-active {
+    transition: opacity 0.3s;
+}
+
+.modal-enter, .modal-leave-to {
+    opacity : 0;
+}
+
+
 </style>
