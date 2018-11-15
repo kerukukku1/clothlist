@@ -83,7 +83,7 @@ export default class Detail extends Vue {
     z-index: 100;
     width: 100vw;
     height: 50vh;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.3);
     color: white;
     font-weight: bold;
     font-size: 40px;
@@ -96,11 +96,12 @@ export default class Detail extends Vue {
 
 
 .w-image {
-    width: 60%;
+    width: 80vw;
     height: auto;
+    max-height: 90vh;
 }
 .h-image {
-    height: auto;
-    width: 30%;
+    width: auto;
+    height: 100vh;
 }
 </style>
