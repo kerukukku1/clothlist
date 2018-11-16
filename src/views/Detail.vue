@@ -52,6 +52,11 @@ export default class Detail extends Vue {
         'backgroundImage' : '',
         margin : "0 auto"
     }
+
+    getDetailData() {
+
+    }
+
     created() {
         this.id = this.$route.params.id
         axios.get('http://localhost:5000/api/images/'+this.id, {
@@ -72,6 +77,7 @@ export default class Detail extends Vue {
                     this.longW = false
                 }
             }.bind(this)
+            this.getDetailData()
         }.bind(this)).catch(function (err){
             console.log(err)
         })

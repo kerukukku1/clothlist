@@ -17,14 +17,14 @@ import (
 )
 
 type Image struct {
-	ID    bson.ObjectId `bson:"_id"`
-	Title string        `bson:"title"`
-	Path  string        `bson:"path"`
+	ID       bson.ObjectId `bson:"_id"`
+	Title    string        `bson:"title"`
+	Path     string        `bson:"path"`
+	DetailID bson.ObjectId `bson:"detailID"`
 }
 
 type Detail struct {
 	ID        bson.ObjectId   `bson:"_id"`
-	ParentID  bson.ObjectId   `bson:"parentObjectId"`
 	Comment   string          `bson:"comment"`
 	Withcloth []bson.ObjectId `bson:"withCloth"`
 }
@@ -68,9 +68,10 @@ func PostImageBlob(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	newImage := &Image{
-		ID:    bson.NewObjectId(),
-		Path:  path,
-		Title: title,
+		ID:       bson.NewObjectId(),
+		Path:     path,
+		Title:    title,
+		DetailID: bson.NewObjectId(),
 	}
 	mongoSaveImage(*newImage)
 
@@ -78,14 +79,43 @@ func PostImageBlob(w http.ResponseWriter, r *http.Request) {
 	io.Copy(f, file)
 }
 
-func convertJSON(image Image) string {
+func convertImageToJSON(image Image) string {
 	img, err := json.Marshal(image)
 	if err != nil {
 		log.Fatalln(err)
 	}
 	return string(img)
 }
-func findObjID(w http.ResponseWriter, r *http.Request) {
+
+func convertDetailToJSON(detail Detail) string {
+	dtl, err := json.Marshal(detail)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	return string(dtl)
+}
+
+func findDetailObjectID(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	session, _ := mgo.Dial("mongodb://localhost/test")
+	defer session.Close()
+	db := session.DB("test")
+	idStr := params["objID"]
+	if !bson.IsObjectIdHex(idStr) {
+		fmt.Println("not objectId")
+		return
+	}
+	id := bson.ObjectIdHex(idStr)
+
+	var detail Detail
+	if err := db.C("detail").FindId(id).One(&detail); err != nil {
+		fmt.Println(err)
+		return
+	}
+	w.Write([]byte(convertDetailToJSON(detail)))
+}
+
+func findImageObjectID(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	session, _ := mgo.Dial("mongodb://localhost/test")
 	defer session.Close()
@@ -98,27 +128,25 @@ func findObjID(w http.ResponseWriter, r *http.Request) {
 	id := bson.ObjectIdHex(idStr)
 
 	var image Image
-	if err := db.C(params["column"]).FindId(id).One(&image); err != nil {
+	if err := db.C("images").FindId(id).One(&image); err != nil {
 		fmt.Println(err)
 		return
 	}
-	w.Write([]byte(convertJSON(image)))
+	w.Write([]byte(convertImageToJSON(image)))
 }
 
 func findTagImage(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
 	session, _ := mgo.Dial("mongodb://localhost/test")
 	defer session.Close()
 	var images []Image
 	db := session.DB("test")
-	fmt.Println(params["column"])
-	if err := db.C(params["column"]).Find(bson.M{}).All(&images); err != nil {
+	if err := db.C("images").Find(bson.M{}).All(&images); err != nil {
 		log.Fatal(err)
 	}
 	ret := ""
 	ret += "["
 	for _, image := range images {
-		ret += convertJSON(image)
+		ret += convertImageToJSON(image)
 		ret += ","
 	}
 	sc := []rune(ret)
@@ -140,8 +168,7 @@ func mongoSaveImage(newImage Image) {
 	var withClothes []bson.ObjectId
 	fmt.Println(withClothes)
 	newDetail := &Detail{
-		ID:        bson.NewObjectId(),
-		ParentID:  newImage.ID,
+		ID:        newImage.DetailID,
 		Comment:   "# Markdown document is not setting yet.",
 		Withcloth: withClothes,
 	}
@@ -160,7 +187,8 @@ func main() {
 	allowedMethods := handlers.AllowedMethods([]string{"GET", "POST", "DELETE", "PUT", "OPTIONS"})
 	allowedHeaders := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
 	router.HandleFunc("/images/post", PostImageBlob).Methods("POST")
-	router.HandleFunc("/api/{column}", findTagImage).Methods("GET")
-	router.HandleFunc("/api/{column}/{objID}", findObjID).Methods("GET")
+	router.HandleFunc("/api/images", findTagImage).Methods("GET")
+	router.HandleFunc("/api/images/{objID}", findImageObjectID).Methods("GET")
+	router.HandleFunc("/api/detail/{objID}", findImageObjectID).Methods("GET")
 	log.Fatal(http.ListenAndServe(":5000", handlers.CORS(allowedOrigins, allowedMethods, allowedHeaders)(router)))
 }
