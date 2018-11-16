@@ -12,6 +12,8 @@
         <image-modal v-if="open" v-on:close="open=false">
             <img :class="{'w-image' : longW, 'h-image' : !longW}" :src="require('@/server/'+this.path)"/>
         </image-modal>
+        <div class="edit-button">Edit Markdown</div>
+        <div class="back-button">Back Home</div>
     </div>
 </template>
 
@@ -103,5 +105,41 @@ export default class Detail extends Vue {
 .h-image {
     width: auto;
     height: 100vh;
+}
+
+.edit-button{
+    background-color:rgb(69, 196, 69);
+    color: white;
+    display: inline-block;
+    font-size: 16px;
+    padding: 10px 30px 10px 30px;
+    border: none;
+    text-align: center;
+    font-weight: bold;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.edit-button:hover{
+    background-color:rgb(65, 209, 65);
+    transition: 300ms;
+}
+
+.back-button{
+    background-color:rgb(142, 142, 142);
+    color: white;
+    display: inline-block;
+    font-size: 16px;
+    padding: 10px 30px 10px 30px;
+    border: none;
+    text-align: center;
+    font-weight: bold;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.back-button:hover{
+    background-color:rgb(104, 104, 104);
+    transition: 500ms;
 }
 </style>

@@ -22,6 +22,13 @@ type Image struct {
 	Path  string        `bson:"path"`
 }
 
+type Detail struct {
+	ID        bson.ObjectId   `bson:"_id"`
+	ParentID  bson.ObjectId   `bson:"parentObjectId"`
+	Comment   string          `bson:"comment"`
+	Withcloth []bson.ObjectId `bson:"withCloth"`
+}
+
 func init() {
 	rand.Seed(time.Now().UnixNano())
 }
@@ -125,8 +132,22 @@ func mongoSaveImage(newImage Image) {
 	//この関数が終わる時にsessionをcloseする
 	defer session.Close()
 	db := session.DB("test")
-	column := db.C("images")
-	if err := column.Insert(&newImage); err != nil {
+	img_column := db.C("images")
+	if err := img_column.Insert(&newImage); err != nil {
+		log.Fatalln(err)
+		fmt.Println(err)
+	}
+	var withClothes []bson.ObjectId
+	fmt.Println(withClothes)
+	newDetail := &Detail{
+		ID:        bson.NewObjectId(),
+		ParentID:  newImage.ID,
+		Comment:   "",
+		Withcloth: withClothes,
+	}
+	println("mongo save")
+	detail_column := db.C("detail")
+	if err := detail_column.Insert(&newDetail); err != nil {
 		log.Fatalln(err)
 		fmt.Println(err)
 	}
