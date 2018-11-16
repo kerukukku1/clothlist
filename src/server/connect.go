@@ -142,7 +142,7 @@ func mongoSaveImage(newImage Image) {
 	newDetail := &Detail{
 		ID:        bson.NewObjectId(),
 		ParentID:  newImage.ID,
-		Comment:   "",
+		Comment:   "# Markdown document is not setting yet.",
 		Withcloth: withClothes,
 	}
 	println("mongo save")
