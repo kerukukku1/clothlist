@@ -93,8 +93,4 @@ export default class Gallery extends Vue {
   background-position: center;
   background-image: url("../assets/users/mahito6/IMG_7696.jpg");
 }
-
-.cloth-item-detail{
-
-}
 </style>
