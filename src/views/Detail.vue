@@ -12,12 +12,12 @@
         <image-modal v-if="open" v-on:close="open=false">
             <img :class="{'w-image' : longW, 'h-image' : !longW}" :src="require('@/server/'+this.path)"/>
         </image-modal>
-        <transition name="marked">
-            <div class="markdown-gridbox">
-                <textarea v-if="show"></textarea>
-                <div v-html="compileMarkdown"></div>
-            </div>
-        </transition>
+        <div class="markdown-gridbox">
+            <transition name="marked" out-in>
+                <textarea v-if="isEdit" class="editor" v-model="content"></textarea>
+            </transition>
+            <div v-html="compileMarkdown"></div>
+        </div>
         <div class="edit-button" @click="isEdit=!isEdit">{{buttonText}}</div>
         <div class="back-button">Back Home</div>
     </div>
@@ -108,6 +108,7 @@ export default class Detail extends Vue {
         }.bind(this)).catch(function (err){
             console.log(err)
         })
+        this.$refs['markdown-area'].value = "kasu"
     }
 }
 </script>
@@ -178,5 +179,27 @@ export default class Detail extends Vue {
 .back-button:hover{
     background-color:rgb(104, 104, 104);
     transition: 500ms;
+}
+
+.editor{
+    margin: 15px;
+}
+
+.marked-enter-active {
+    animation: marked-in .5s;
+}
+.marked-leave-active {
+    animation: marked-in .5s reverse;
+}
+@keyframes marked-in {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 </style>
