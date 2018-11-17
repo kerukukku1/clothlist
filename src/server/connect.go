@@ -50,6 +50,9 @@ func RandString1(n int) string {
 	return string(b)
 }
 
+func PostMarkdownDetail(w http.ResponseWriter, r *http.Request) {
+}
+
 func PostImageBlob(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseMultipartForm(32 << 20) // maxMemory
 	if err != nil {
@@ -181,6 +184,7 @@ func main() {
 	allowedMethods := handlers.AllowedMethods([]string{"GET", "POST", "DELETE", "PUT", "OPTIONS"})
 	allowedHeaders := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
 	router.HandleFunc("/images/post", PostImageBlob).Methods("POST")
+	router.HandleFunc("/detail/post", PostMarkdownDetail).Methods("POST")
 	router.HandleFunc("/api/images", findTagImage).Methods("GET")
 	router.HandleFunc("/api/images/{objID}", findImageObjectID).Methods("GET")
 	router.HandleFunc("/api/detail/{objID}", findDetailObjectID).Methods("GET")
