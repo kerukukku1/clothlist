@@ -16,6 +16,10 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+/*
+画像の構造体
+*/
+
 type Image struct {
 	ID       bson.ObjectId `bson:"_id"`
 	Title    string        `bson:"title"`
@@ -23,6 +27,9 @@ type Image struct {
 	DetailID bson.ObjectId `bson:"detailID"`
 }
 
+/*
+詳細ページの構造体
+*/
 type Detail struct {
 	ID        bson.ObjectId   `bson:"_id"`
 	Comment   string          `bson:"comment"`
@@ -79,23 +86,8 @@ func PostImageBlob(w http.ResponseWriter, r *http.Request) {
 	io.Copy(f, file)
 }
 
-func convertImageToJSON(image Image) string {
-	img, err := json.Marshal(image)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	return string(img)
-}
-
-func convertDetailToJSON(detail Detail) string {
-	dtl, err := json.Marshal(detail)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	return string(dtl)
-}
-
 func findDetailObjectID(w http.ResponseWriter, r *http.Request) {
+	println("find detail")
 	params := mux.Vars(r)
 	session, _ := mgo.Dial("mongodb://localhost/test")
 	defer session.Close()
@@ -106,9 +98,9 @@ func findDetailObjectID(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	id := bson.ObjectIdHex(idStr)
-
 	var detail Detail
 	if err := db.C("detail").FindId(id).One(&detail); err != nil {
+		fmt.Println("Sorry. Detail not find")
 		fmt.Println(err)
 		return
 	}
@@ -116,6 +108,7 @@ func findDetailObjectID(w http.ResponseWriter, r *http.Request) {
 }
 
 func findImageObjectID(w http.ResponseWriter, r *http.Request) {
+	println("find image")
 	params := mux.Vars(r)
 	session, _ := mgo.Dial("mongodb://localhost/test")
 	defer session.Close()
@@ -129,6 +122,7 @@ func findImageObjectID(w http.ResponseWriter, r *http.Request) {
 
 	var image Image
 	if err := db.C("images").FindId(id).One(&image); err != nil {
+		fmt.Println("Sorry. Image not find")
 		fmt.Println(err)
 		return
 	}
@@ -189,6 +183,22 @@ func main() {
 	router.HandleFunc("/images/post", PostImageBlob).Methods("POST")
 	router.HandleFunc("/api/images", findTagImage).Methods("GET")
 	router.HandleFunc("/api/images/{objID}", findImageObjectID).Methods("GET")
-	router.HandleFunc("/api/detail/{objID}", findImageObjectID).Methods("GET")
+	router.HandleFunc("/api/detail/{objID}", findDetailObjectID).Methods("GET")
 	log.Fatal(http.ListenAndServe(":5000", handlers.CORS(allowedOrigins, allowedMethods, allowedHeaders)(router)))
+}
+
+func convertImageToJSON(image Image) string {
+	img, err := json.Marshal(image)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	return string(img)
+}
+
+func convertDetailToJSON(detail Detail) string {
+	dtl, err := json.Marshal(detail)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	return string(dtl)
 }
