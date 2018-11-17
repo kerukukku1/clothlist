@@ -12,15 +12,17 @@
         <image-modal v-if="open" v-on:close="open=false">
             <img :class="{'w-image' : longW, 'h-image' : !longW}" :src="require('@/server/'+this.path)"/>
         </image-modal>
+        <div v-html="compileMarkdown"></div>
         <div class="edit-button">Edit Markdown</div>
         <div class="back-button">Back Home</div>
     </div>
 </template>
 
 <script lang="ts">
-import {Vue, Component} from 'vue-property-decorator'
+import {Vue, Component, Watch} from 'vue-property-decorator'
 import axios from 'axios'
 import modal from '@/components/ImageModal.vue'
+import { Marked } from 'marked-ts';
 
 interface boxImage{
     width : string,
@@ -43,6 +45,7 @@ export default class Detail extends Vue {
     mydetail : string = "aeiuo"
     path : string = ""
     longW : boolean = false
+    content : string = "aaa"
     boximage: boxImage = {
         width : "100vw",
         height : "auto",
@@ -53,8 +56,21 @@ export default class Detail extends Vue {
         margin : "0 auto"
     }
 
-    getDetailData() {
+    get compileMarkdown() : string{
+        return Marked.parse(this.content);
+    }
 
+    getDetailData() {
+        axios.get('http://localhost:5000/api/detail/'+this.mydetail.DetailID, {
+            headers : {
+                'Content-type' : 'application-json'
+            }
+        }).then(function (res : any){
+            this.content = res.data.Comment
+            console.log(res)
+        }.bind(this)).catch(function (err){
+            console.log(err)
+        })
     }
 
     created() {
@@ -87,7 +103,6 @@ export default class Detail extends Vue {
 
 <style scoped>
 .image-wrapper {
-    position: fixed;
     z-index: 100;
     width: 100vw;
     height: 50vh;
