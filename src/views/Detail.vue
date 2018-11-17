@@ -18,7 +18,7 @@
             </transition>
             <div v-html="compileMarkdown"></div>
         </div>
-        <div class="edit-button" @click="isEdit=!isEdit">{{buttonText}}</div>
+        <div class="edit-button" @click="actEdit">{{buttonText}}</div>
         <div class="back-button">Back Home</div>
     </div>
 </template>
@@ -71,6 +71,25 @@ export default class Detail extends Vue {
         return Marked.parse(this.content);
     }
 
+    actEdit(){
+        this.isEdit=!this.isEdit
+        if(this.isEdit)return
+        let postData = new FormData()
+        postData.append('content', this.content)
+        const options = {
+            headers : {
+                'content-type': 'multipart/form-data',
+            }
+        }
+        axios.post('http://localhost:5000/detail/post', postData, options)
+        .then(function (res){
+            console.log(res)
+        })
+        .catch(function (err){
+            console.log(err)
+        })
+    }
+
     getDetailData() {
         axios.get('http://localhost:5000/api/detail/'+this.mydetail.DetailID, {
             headers : {
@@ -108,7 +127,6 @@ export default class Detail extends Vue {
         }.bind(this)).catch(function (err){
             console.log(err)
         })
-        this.$refs['markdown-area'].value = "kasu"
     }
 }
 </script>
