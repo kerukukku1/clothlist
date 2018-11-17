@@ -12,8 +12,13 @@
         <image-modal v-if="open" v-on:close="open=false">
             <img :class="{'w-image' : longW, 'h-image' : !longW}" :src="require('@/server/'+this.path)"/>
         </image-modal>
-        <div v-html="compileMarkdown"></div>
-        <div class="edit-button">Edit Markdown</div>
+        <transition name="marked">
+            <div class="markdown-gridbox">
+                <textarea v-if="show"></textarea>
+                <div v-html="compileMarkdown"></div>
+            </div>
+        </transition>
+        <div class="edit-button" @click="isEdit=!isEdit">{{buttonText}}</div>
         <div class="back-button">Back Home</div>
     </div>
 </template>
@@ -45,7 +50,9 @@ export default class Detail extends Vue {
     mydetail : string = "aeiuo"
     path : string = ""
     longW : boolean = false
-    content : string = "aaa"
+    content : string = ""
+    isEdit : boolean = false
+    buttonContext : string = ""
     boximage: boxImage = {
         width : "100vw",
         height : "auto",
@@ -54,6 +61,10 @@ export default class Detail extends Vue {
         backgroundPosition : "center",
         'backgroundImage' : '',
         margin : "0 auto"
+    }
+
+    get buttonText() : string {
+        return (this.isEdit)?"Save Markdown" : "Edit Markdown"
     }
 
     get compileMarkdown() : string{
@@ -117,6 +128,11 @@ export default class Detail extends Vue {
     cursor: pointer;
 }
 
+.markdown-gridbox{
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
 
 .w-image {
     width: 80vw;
