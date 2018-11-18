@@ -50,7 +50,7 @@ export default class Upload extends Vue {
             }
         }
         // axios.post('http://192.168.11.8:5000/images/post', postData, options)
-        axios.post('http://localhost:5000/images/post', postData, options)
+        axios.post('http://'+location.hostname+':5000/images/post', postData, options)
         .then(function (res){
             console.log(res)
         })

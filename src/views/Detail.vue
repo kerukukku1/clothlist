@@ -36,7 +36,8 @@ interface boxImage{
     backgroundSize : string,
     backgroundPosition : string,
     "backgroundImage" : string,
-    margin : string
+    margin : string,
+    borderRadius : string
 }
 
 @Component({
@@ -56,11 +57,12 @@ export default class Detail extends Vue {
     boximage: boxImage = {
         width : "100vw",
         height : "auto",
-        minHeight : "50vh",
+        minHeight : "40vh",
         backgroundSize : "cover",
         backgroundPosition : "center",
         'backgroundImage' : '',
-        margin : "0 auto"
+        margin : "0 auto",
+        borderRadius : "10px"
     }
 
     get buttonText() : string {
@@ -81,7 +83,7 @@ export default class Detail extends Vue {
                 'content-type': 'application/json',
             }
         }
-        axios.post('http://localhost:5000/detail/update/'+this.mydetail.DetailID, postData, options)
+        axios.post('http://'+location.hostname+':5000/detail/update/'+this.mydetail.DetailID, postData, options)
         .then(function (res){
             console.log(res)
         })
@@ -91,7 +93,7 @@ export default class Detail extends Vue {
     }
 
     getDetailData() {
-        axios.get('http://localhost:5000/api/detail/'+this.mydetail.DetailID, {
+        axios.get('http://'+location.hostname+':5000/api/detail/'+this.mydetail.DetailID, {
             headers : {
                 'Content-type' : 'application-json'
             }
@@ -105,7 +107,7 @@ export default class Detail extends Vue {
 
     created() {
         this.id = this.$route.params.id
-        axios.get('http://localhost:5000/api/images/'+this.id, {
+        axios.get('http://'+location.hostname+':5000/api/images/'+this.id, {
             headers : {
                 'Content-type' : 'application-json'
             }
@@ -219,5 +221,17 @@ export default class Detail extends Vue {
     100% {
         transform: scale(1);
     }
+}
+
+textarea {
+    border-radius: 10px;
+    border : 2px solid rgb(65, 209, 65);
+    outline: none;
+    resize: none;
+    min-height: 30vh;
+    font-size: 18px;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 </style>

@@ -26,7 +26,7 @@ export default class ClothBox extends Vue{
     images : Array<myImage> = []
 
     mounted() {
-        axios.get('http://localhost:5000/api/images', {
+        axios.get('http://'+location.hostname+':5000/api/images', {
             headers : {
                 'Content-type' : 'application/json'
             }
