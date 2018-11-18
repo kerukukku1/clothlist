@@ -78,10 +78,10 @@ export default class Detail extends Vue {
         postData.append('content', this.content)
         const options = {
             headers : {
-                'content-type': 'multipart/form-data',
+                'content-type': 'application/json',
             }
         }
-        axios.post('http://localhost:5000/detail/post', postData, options)
+        axios.post('http://localhost:5000/detail/update/'+this.mydetail.DetailID, postData, options)
         .then(function (res){
             console.log(res)
         })
