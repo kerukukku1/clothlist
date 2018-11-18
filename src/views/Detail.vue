@@ -10,7 +10,7 @@
             </div>
         </div>
         <image-modal v-if="open" v-on:close="open=false">
-            <img :class="{'w-image' : longW, 'h-image' : !longW}" :src="require('@/server/'+this.path)"/>
+            <img :class="{'w-image' : longW, 'h-image' : !longW}" :src="require('@/server/'+this.path)" @click="open=false"/>
         </image-modal>
         <div class="markdown-gridbox">
             <transition name="marked" out-in>
